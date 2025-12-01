@@ -4,20 +4,28 @@
       <h3>{{ column.title }}</h3>
       <span class="card-count">{{ column.cards.length }}</span>
     </div>
-
-    <div class="cards-list">
-      <Card v-for="card in column.cards" :key="card.id" :card="card"/>
-    </div>
+    <draggable
+        :list="column.cards"
+        group="cards"
+        class="cards-list"
+    >
+      <Card
+          v-for="card in column.cards"
+          :key="card.id"
+          :card="card"
+      />
+    </draggable>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
+import draggable from "vuedraggable";
 import Card from "./Card.vue";
 import { IColumn } from "@/types";
 
 @Component({
-  components: { Card }
+  components: { Card, draggable }
 })
 export default class Column extends Vue {
   @Prop({ required: true }) column!: IColumn;
@@ -56,5 +64,4 @@ export default class Column extends Vue {
   flex-direction: column;
   gap: 10px;
 }
-
 </style>

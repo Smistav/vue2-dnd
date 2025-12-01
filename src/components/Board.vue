@@ -28,11 +28,11 @@ export default class Board extends Vue {
 
   addCard(): void {
     if (this.columns[0]) {
+      const totalCardsCount = this.columns.reduce((sum, column) => sum + column.cards.length, 0);
       const newCard: ICard = {
         id: `card_${Date.now()}`,
-        title: `Задача ${this.columns[0].cards.length + 1}`,
-        description: `Описание ${this.columns[0].cards.length + 1}`,
-        columnId: this.columns[0].id,
+        title: `Задача ${totalCardsCount + 1}`,
+        description: `Описание ${totalCardsCount + 1}`,
       };
 
       this.columns[0].cards.push(newCard);
