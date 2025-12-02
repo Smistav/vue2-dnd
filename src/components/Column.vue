@@ -20,17 +20,24 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { defineComponent, PropType } from "vue";
 import draggable from "vuedraggable";
 import Card from "./Card.vue";
 import { IColumn } from "@/types";
 
-@Component({
-  components: { Card, draggable }
-})
-export default class Column extends Vue {
-  @Prop({ required: true }) column!: IColumn;
-}
+export default defineComponent({
+  name: "Column",
+  components: {
+    Card,
+    draggable
+  },
+  props: {
+    column: {
+      type: Object as PropType<IColumn>,
+      required: true
+    }
+  }
+});
 </script>
 
 <style scoped>

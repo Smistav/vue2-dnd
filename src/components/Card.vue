@@ -8,13 +8,18 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { defineComponent, PropType } from "vue";
 import { ICard } from "@/types";
 
-@Component
-export default class Card extends Vue {
-  @Prop({ required: true }) card!: ICard;
-}
+export default defineComponent({
+  name: "Card",
+  props: {
+    card: {
+      type: Object as PropType<ICard>,
+      required: true
+    }
+  }
+});
 </script>
 
 <style scoped>

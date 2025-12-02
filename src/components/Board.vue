@@ -15,53 +15,58 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from "vue-property-decorator";
+import { defineComponent } from "vue";
 import Column from "./Column.vue";
 import { IColumn, ICard } from "@/types";
 import { getInitialData } from "@/mockData/mock";
 import { StorageService } from "@/services/StorageService";
 
-@Component({
-  components: { Column }
-})
-export default class Board extends Vue {
-  columns: IColumn[] = getInitialData();
-
+export default defineComponent({
+  name: "Board",
+  components: {
+    Column
+  },
+  data() {
+    return {
+      columns: [] as IColumn[]
+    };
+  },
   created() {
     this.loadData();
-  }
+  },
+  methods: {
+    loadData(): void {
+      const columnsFromStorage = StorageService.loadFromStorage();
+      this.columns = columnsFromStorage || getInitialData();
+    },
+    saveData(): void {
+      StorageService.saveToStorage(this.columns);
+    },
+    addCard(): void {
+      if (this.columns[0]) {
+        const totalCardsCount = this.columns.reduce((sum, column) => sum + column.cards.length, 0);
+        const newCard: ICard = {
+          id: `card_${Date.now()}`,
+          title: `Задача ${totalCardsCount + 1}`,
+          description: `Описание ${totalCardsCount + 1}`,
+        };
 
-  private loadData(): void {
-    const columnsFromStorage = StorageService.loadFromStorage();
-    this.columns = columnsFromStorage || getInitialData();
-  }
-
-  private saveData(): void {
-    StorageService.saveToStorage(this.columns);
-  }
-
-  @Watch('columns', { deep: true })
-  onChangeColumns() {
-    this.saveData()
-  }
-
-  addCard(): void {
-    if (this.columns[0]) {
-      const totalCardsCount = this.columns.reduce((sum, column) => sum + column.cards.length, 0);
-      const newCard: ICard = {
-        id: `card_${Date.now()}`,
-        title: `Задача ${totalCardsCount + 1}`,
-        description: `Описание ${totalCardsCount + 1}`,
-      };
-
-      this.columns[0].cards.push(newCard);
+        this.columns[0].cards.push(newCard);
+      }
+    },
+    resetCard(): void {
+      this.columns = getInitialData();
+    }
+  },
+  watch: {
+    columns: {
+      handler() {
+        this.saveData();
+      },
+      deep: true
     }
   }
-
-  resetCard(): void {
-    this.columns = getInitialData()
-  }
-}
+});
 </script>
 
 <style scoped>
