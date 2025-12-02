@@ -8,6 +8,7 @@
         :list="column.cards"
         group="cards"
         class="cards-list"
+        :animation="200"
     >
       <Card
           v-for="card in column.cards"
@@ -34,6 +35,8 @@ export default class Column extends Vue {
 
 <style scoped>
 .column {
+  display: flex;
+  flex-direction: column;
   flex: 1;
   background: white;
   border-radius: 8px;
@@ -41,6 +44,12 @@ export default class Column extends Vue {
   min-height: 500px;
   border: 2px dashed transparent;
   position: relative;
+}
+
+.column:has(.sortable-ghost) {
+  border-color: #4299e1;
+  background-color: rgba(66, 153, 225, 0.05);
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
 }
 
 .column-header {
@@ -63,5 +72,7 @@ export default class Column extends Vue {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  flex: 1;
 }
+
 </style>
