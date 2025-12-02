@@ -15,16 +15,35 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Watch } from "vue-property-decorator";
 import Column from "./Column.vue";
 import { IColumn, ICard } from "@/types";
 import { getInitialData } from "@/mockData/mock";
+import { StorageService } from "@/services/StorageService";
 
 @Component({
   components: { Column }
 })
 export default class Board extends Vue {
   columns: IColumn[] = getInitialData();
+
+  created() {
+    this.loadData();
+  }
+
+  private loadData(): void {
+    const columnsFromStorage = StorageService.loadFromStorage();
+    this.columns = columnsFromStorage || getInitialData();
+  }
+
+  private saveData(): void {
+    StorageService.saveToStorage(this.columns);
+  }
+
+  @Watch('columns', { deep: true })
+  onChangeColumns() {
+    this.saveData()
+  }
 
   addCard(): void {
     if (this.columns[0]) {
