@@ -9,6 +9,7 @@
         group="cards"
         class="cards-list"
         :animation="200"
+        chosen-class="chosen-card"
     >
       <Card
           v-for="card in column.cards"
@@ -82,4 +83,7 @@ export default defineComponent({
   flex: 1;
 }
 
+.chosen-card {
+  background: rgba(255, 255, 255, .5);
+}
 </style>
