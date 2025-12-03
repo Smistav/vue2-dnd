@@ -1,24 +1,33 @@
 # vue2-dnd
 
-## Project setup
-```
+Тестовое задание Kanban доски
+
+### Стэк технологий
+
+Vue, JS, HTML, Typescript
+
+### Для развертывания проекта
+
+1. Клонируйте репозиторий
+2. Установите зависимости
+
+```sh
 npm install
 ```
 
-### Compiles and hot-reloads for development
-```
+3. Запустите проект
+
+```sh
 npm run serve
 ```
 
-### Compiles and minifies for production
-```
-npm run build
-```
+### Реализовано
 
-### Lints and fixes files
-```
-npm run lint
-```
+- Пермещение карточек
+- Добавление новых
+- Сохранение данных Доски(колонок, карточек и данных) в localStorage
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Статус
+
+Завершено
+
